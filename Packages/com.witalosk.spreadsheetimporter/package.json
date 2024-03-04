@@ -1,0 +1,8 @@
+{
+    "name": "com.witalosk.spreadsheetimporter",
+    "author": "witalosk",
+    "version": "1.0.0",
+    "displayName": "Spread Sheet Importer",
+    "description": "Easy Google Spread Sheet Importer",
+    "unity": "2021.3"
+}
