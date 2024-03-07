@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using UnityEngine.Networking;
 
@@ -97,6 +98,8 @@ namespace SpreadSheetImporter
         private readonly Dictionary<string, int> _primaryKeyToRowindex = new();
         private readonly List<SpreadSheetRow> _rows = new();
         
+        private static string _separatorRegex = ",(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))";
+        
         public SpreadSheetData(string csv, int headerRow = 0, int dataStartRow = 1, int primaryKeyColumn = 0)
         {
             UpdateCsvData(csv, headerRow, dataStartRow, primaryKeyColumn);
@@ -118,8 +121,7 @@ namespace SpreadSheetImporter
             string[] rows = csv.Split("\r\n");
             
             // Header
-            string headerRowText = rows[headerRow];
-            string[] headerCells = headerRowText.Split(',');
+            string[] headerCells = Regex.Split(rows[headerRow], _separatorRegex);
             for (int ci = 0; ci < headerCells.Length; ci++)
             {
                 _headerToColumnIndex[headerCells[ci]] = ci;
@@ -128,8 +130,7 @@ namespace SpreadSheetImporter
             // Data
             for (int ri = dataStartRow; ri < rows.Length; ri++)
             {
-                string row = rows[ri];
-                string[] cells = row.Split(',');
+                string[] cells = Regex.Split(rows[ri], _separatorRegex);
                 for (int ci = 0; ci < cells.Length; ci++)
                 {
                     cells[ci] = cells[ci].Trim('"');
@@ -189,6 +190,6 @@ namespace SpreadSheetImporter
         public SpreadSheetRow GetRow(string primaryKey)
         {
             return _primaryKeyToRowindex.TryGetValue(primaryKey, out int rowIndex) ? _rows[rowIndex] : null;
-        }
+        } 
     }
 }
