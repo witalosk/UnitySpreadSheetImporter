@@ -14,7 +14,7 @@ namespace SpreadSheetImporter.Sample
         {
             var data = await SpreadSheetImporter.GetSpreadSheetDataAsync(_spreadSheetId, _sheetGId, _headerRow, _dataStartRow, _primaryKeyColumn);
             
-            foreach (var row in data.Rows)
+            foreach (var row in data)
             {
                 Debug.Log($"[{row["Name"]}]: Price:{row["Price"]}, Note:{row["Note"]}");
             }

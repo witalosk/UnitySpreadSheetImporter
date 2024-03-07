@@ -30,7 +30,7 @@ You can import a google spread sheet and use it as a data source for your projec
         {
             var data = await SpreadSheetImporter.GetSpreadSheetDataAsync(_spreadSheetId, _sheetGId, _headerRow, _dataStartRow, _primaryKeyColumn);
             
-            foreach (var row in data.Rows)
+            foreach (var row in data)
             {
                 Debug.Log($"[{row["Name"]}]: Price:{row["Price"]}, Note:{row["Note"]}");
             }

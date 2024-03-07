@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -75,7 +76,7 @@ namespace SpreadSheetImporter
         }
     }
 
-    public class SpreadSheetData
+    public class SpreadSheetData : IEnumerable<SpreadSheetRow>
     {
         /// <summary>
         /// Headers
@@ -190,6 +191,16 @@ namespace SpreadSheetImporter
         public SpreadSheetRow GetRow(string primaryKey)
         {
             return _primaryKeyToRowindex.TryGetValue(primaryKey, out int rowIndex) ? _rows[rowIndex] : null;
-        } 
+        }
+
+        public IEnumerator<SpreadSheetRow> GetEnumerator()
+        {
+            return Rows.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 }
